@@ -6,9 +6,9 @@ import styles from "../styles/index.module.css";
 
 export default function Web() {
   return (
-    <div className={styles.container}>
+    <div className='h-screen w-full'>
       <h1>Web</h1>
-      <Button onClick={() => console.log("Pressed!")} text="Boop" />
+      <Button onClick={() => alert("Pressed!")} text="Press" />
     </div>
   );
 }
