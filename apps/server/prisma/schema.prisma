@@ -11,10 +11,9 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 model User {
-  id           String   @id @default(uuid())
+ id           String   @id @default(uuid())
   name         String
   email        String   @unique
   providerId   String
@@ -26,4 +25,73 @@ model User {
   is_admin     Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  courses     Course[]   @relation("UserCourses")
 }
+
+model Course {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String
+  lessons     Lesson[]    @relation("CourseLessons")
+  createdBy   User        @relation("UserCourses", fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Lesson {
+  id          Int         @id @default(autoincrement())
+  title       String
+  content     String      //URL video
+  course      Course      @relation("CourseLessons", fields: [courseId], references: [id])
+  courseId    Int
+  flashCards  FlashCard[]
+  grammars    Grammar[]
+  vocabularies Vocabulary[]
+  miniTests   MiniTest[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model FlashCard {
+  id          Int         @id @default(autoincrement())
+  term        String      // Từ vựng tiếng Nhật
+  definition  String      // Nghĩa tiếng Việt
+  kanji       String      // Chữ Hán
+  lesson      Lesson      @relation(fields: [lessonId], references: [id])
+  lessonId    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Vocabulary {
+  id          Int         @id @default(autoincrement())
+  wordJP      String      // Từ vựng tiếng Nhật
+  wordVN      String      // Nghĩa tiếng Việt
+  kanji       String      // Chữ Hán
+  lesson      Lesson      @relation(fields: [lessonId], references: [id])
+  lessonId    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Grammar {
+  id          Int         @id @default(autoincrement())
+  rule        String      // Quy tắc ngữ pháp
+  description String      // Giải thích ngữ pháp
+  lesson      Lesson      @relation(fields: [lessonId], references: [id])
+  lessonId    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model MiniTest {
+  id          Int         @id @default(autoincrement())
+  question    String      // Câu hỏi kiểm tra
+  answer      String      // Đáp án
+  lesson      Lesson      @relation(fields: [lessonId], references: [id])
+  lessonId    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
