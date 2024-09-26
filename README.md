@@ -1,6 +1,5 @@
 # Kapi
 
-Ứng dụng Capy giúp bạn học tiếng Nhật một cách tự nhiên và hiệu quả như một nhà ngoại giao thực thụ. Với phương pháp tiếp cận thân thiện, dễ hiểu, bạn sẽ nâng cao kỹ năng ngôn ngữ Nhật Bản từng bước, từ cơ bản đến nâng cao.
 
 ### Apps and Packages
 
