@@ -1,97 +1,203 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Learn more: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
+
+// Enums
+enum STATUS {
+  NOT_STARTED
+  PENDING
+  COMPLETED
+  IN_PROGRESS
+  UPDATED
+}
+
+enum VOCABULARY_STATUS {
+  LEARNING
+  REVIEW_PENDING
+  COMPLETED
+}
+
+enum NOTIFICATION_STATUS {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum NOTIFICATION_TYPE {
+  REVIEW
+  LESSON_REMINDER
+  PROGRESS_MILESTONE
+}
+
+// Models
 model User {
- id           String   @id @default(uuid())
-  name         String
-  email        String   @unique
-  providerId   String
-  givenName    String?
-  familyName   String?
-  picture      String? 
-  passwordHash String?  
-  refreshToken String? 
-  is_admin     Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  courses     Course[]   @relation("UserCourses")
+  id                 String              @id @default(uuid())
+  name               String
+  email              String              @unique
+  providerId         String
+  is_admin           Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  completedLessonCount Int               @default(0)
+  
+  // Relations
+  courses            Course[]            @relation("UserCourses")
+  lessonStatuses     LessonStatus[]
+  courseStatuses     CourseStatus[]
+  vocabularyStatuses VocabularyStatus[]
+  notifications      Notification[]
 }
 
 model Course {
-  id          Int         @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   title       String
   description String
-  lessons     Lesson[]    @relation("CourseLessons")
-  createdBy   User        @relation("UserCourses", fields: [createdById], references: [id])
   createdById String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  lessons     Lesson[]      @relation("CourseLessons")
+  createdBy   User          @relation("UserCourses", fields: [createdById], references: [id])
+  statuses    CourseStatus[]
 }
 
 model Lesson {
-  id          Int         @id @default(autoincrement())
-  title       String
-  content     String      //URL video
-  course      Course      @relation("CourseLessons", fields: [courseId], references: [id])
-  courseId    Int
-  flashCards  FlashCard[]
-  grammars    Grammar[]
+  id           Int           @id @default(autoincrement())
+  title        String
+  content      String        // URL to video
+  courseId     Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  
+  // Relations
+  course       Course        @relation("CourseLessons", fields: [courseId], references: [id])
+  flashCards   FlashCard[]
+  grammars     Grammar[]
   vocabularies Vocabulary[]
-  miniTests   MiniTest[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  miniTests    MiniTest[]
+  statuses     LessonStatus[]
+  
+  @@index([courseId, createdAt])
 }
 
 model FlashCard {
-  id          Int         @id @default(autoincrement())
-  term        String      // Từ vựng tiếng Nhật
-  definition  String      // Nghĩa tiếng Việt
-  kanji       String      // Chữ Hán
-  lesson      Lesson      @relation(fields: [lessonId], references: [id])
+  id          Int           @id @default(autoincrement())
+  term        String        // Japanese term
+  definition  String        // Vietnamese meaning
+  kanji       String        // Kanji characters
   lessonId    Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  lesson      Lesson        @relation(fields: [lessonId], references: [id])
 }
 
 model Vocabulary {
-  id          Int         @id @default(autoincrement())
-  wordJP      String      // Từ vựng tiếng Nhật
-  wordVN      String      // Nghĩa tiếng Việt
-  kanji       String      // Chữ Hán
-  lesson      Lesson      @relation(fields: [lessonId], references: [id])
-  lessonId    Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id           Int          @id @default(autoincrement())
+  wordJP       String       // Japanese word
+  wordVN       String       // Vietnamese meaning
+  kanji        String       // Kanji characters
+  lessonId     Int
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  
+  // Relations
+  lesson       Lesson       @relation(fields: [lessonId], references: [id])
+  statuses     VocabularyStatus[]
 }
 
 model Grammar {
-  id          Int         @id @default(autoincrement())
-  rule        String      // Quy tắc ngữ pháp
-  description String      // Giải thích ngữ pháp
-  lesson      Lesson      @relation(fields: [lessonId], references: [id])
-  lessonId    Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id           Int          @id @default(autoincrement())
+  rule         String       // Grammar rule // Sring or Json format
+  description  String       // Explanation of the rule
+  lessonId     Int
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  
+  // Relations
+  lesson       Lesson       @relation(fields: [lessonId], references: [id])
 }
 
 model MiniTest {
-  id          Int         @id @default(autoincrement())
-  question    String      // Câu hỏi kiểm tra
-  answer      String      // Đáp án
-  lesson      Lesson      @relation(fields: [lessonId], references: [id])
-  lessonId    Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id           Int          @id @default(autoincrement())
+  question     String       // Test question
+  answer       String       // Correct answer
+  lessonId     Int
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  
+  // Relations
+  lesson       Lesson       @relation(fields: [lessonId], references: [id])
 }
 
+model LessonStatus {
+  id          Int           @id @default(autoincrement())
+  status      STATUS        @default(NOT_STARTED)
+  progress    Int           // Progress percentage
+  userId      String
+  lessonId    Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  user        User          @relation(fields: [userId], references: [id])
+  lesson      Lesson        @relation(fields: [lessonId], references: [id])
+}
+
+model CourseStatus {
+  id          Int           @id @default(autoincrement())
+  status      STATUS        @default(NOT_STARTED)
+  progress    Int           // Progress percentage
+  userId      String
+  courseId    Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  user        User          @relation(fields: [userId], references: [id])
+  course      Course        @relation(fields: [courseId], references: [id])
+}
+
+model Notification {
+  id           Int              @id @default(autoincrement())
+  type         NOTIFICATION_TYPE @default(REVIEW)
+  message      String
+  sentAt       DateTime?
+  status       NOTIFICATION_STATUS @default(PENDING)
+  userId       String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  
+  // Relations
+  user         User             @relation(fields: [userId], references: [id])
+  VocabularyStatus VocabularyStatus[]
+}
+
+model VocabularyStatus {
+  id            Int              @id @default(autoincrement())
+  status        VOCABULARY_STATUS @default(LEARNING)
+  learnedAt     DateTime        
+  nextReviewAt  DateTime     
+  reviewStage   Int            
+  userId        String
+  vocabularyId  Int
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  
+  // Relations
+  user          User             @relation(fields: [userId], references: [id])
+  vocabulary    Vocabulary       @relation(fields: [vocabularyId], references: [id])
+  notifications Notification[]   // Related notifications
+  
+  @@index([userId, vocabularyId])
+}
