@@ -8,6 +8,7 @@ import { View, Text, Image, TouchableOpacity, SafeAreaView } from 'react-native'
 
 import { SERVER_URL } from '~/config/env';
 import { useAuth } from '~/context/AuthContext';
+import { capy, japanese_flag, vietname_flag } from '~/utils/icon';
 import { checkExists, storeTokens } from '~/utils/store';
 
 const WelcomeScreen = () => {
@@ -51,19 +52,13 @@ const WelcomeScreen = () => {
       <View className="mt-4 flex flex-row items-start justify-between px-5">
         <Text className="text-4xl font-extrabold text-white">Kapi!</Text>
         <View className="flex flex-row gap-x-1">
-          <Image
-            source={require('../../assets/image/vietnam_flag.png')}
-            style={{ width: 24, height: 24 }}
-          />
-          <Image
-            source={require('../../assets/image/japanese_flag.png')}
-            style={{ width: 24, height: 24 }}
-          />
+          <Image source={vietname_flag} style={{ width: 24, height: 24 }} />
+          <Image source={japanese_flag} style={{ width: 24, height: 24 }} />
         </View>
       </View>
       <View className="flex-1 items-center justify-center">
         <Image
-          source={require('../../assets/image/Capy.png')}
+          source={capy}
           className="mt-6 h-[430px] w-[430px] rounded-full object-cover sm:h-64 sm:w-64"
           accessibilityRole="image"
           accessibilityLabel="Capybara Illustration"
