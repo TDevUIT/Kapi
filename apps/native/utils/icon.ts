@@ -1,17 +1,23 @@
-export const arrowd = require('../assets/icon/arrowd.svg');
-export const arrowr = require('../assets/icon/arrowr.svg');
-export const arrowl = require('../assets/icon/arrowl.svg');
-export const fire = require('../assets/icon/fire.svg');
-export const flower = require('../assets/icon/flower.svg');
-export const fruit = require('../assets/icon/fruit.svg');
-export const home = require('../assets/icon/home.svg');
-export const lesson = require('../assets/icon/lesson.svg');
-export const psychiatry = require('../assets/icon/psychiatry.svg');
-export const star = require('../assets/icon/star.svg');
-export const water = require('../assets/icon/water.svg');
-export const sunny = require('../assets/icon/sunny.svg');
-export const rank = require('../assets/icon/rank.svg');
-export const announce = require('../assets/icon/announce.svg');
-export const capy = require('../assets/image/Capy.png');
-export const vietname_flag = require('../assets/image/vietnam_flag.png')
-export const japanese_flag = require('../assets/image/japanese_flag.png')
+export const icons = {
+  arrowDown: require('../assets/icon/arrowd.svg'),
+  arrowRight: require('../assets/icon/arrowr.svg'),
+  arrowLeft: require('../assets/icon/arrowl.svg'),
+  fire: require('../assets/icon/fire.svg'),
+  flower: require('../assets/icon/flower.svg'),
+  fruit: require('../assets/icon/fruit.svg'),
+  home: require('../assets/icon/home.svg'),
+  lesson: require('../assets/icon/lesson.svg'),
+  psychiatry: require('../assets/icon/psychiatry.svg'),
+  star: require('../assets/icon/star.svg'),
+  water: require('../assets/icon/water.svg'),
+  sunny: require('../assets/icon/sunny.svg'),
+  rank: require('../assets/icon/rank.svg'),
+  announce: require('../assets/icon/announce.svg'),
+};
+
+export const images = {
+  capy: require('../assets/image/Capy.png'),
+  vietnamFlag: require('../assets/image/vietnam_flag.png'),
+  japaneseFlag: require('../assets/image/japanese_flag.png'),
+  google: require('../assets/image/google.png'),
+};
