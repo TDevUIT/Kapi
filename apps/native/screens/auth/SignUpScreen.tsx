@@ -61,25 +61,30 @@ const SignUpScreen: React.FC = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-        <View className="flex-1 p-6 pt-[30%]" style={{ backgroundColor: 'rgb(241,139,47)' }}>
+        <View className="flex-1 p-6 pt-[30%]" style={{ backgroundColor: 'white' }}>
           <View className="absolute left-4 top-12">
             <TouchableOpacity
               onPress={() => router.push('/(auth)/sign-in')}
               className="flex-row items-center">
-              <FontAwesome name="arrow-left" size={24} color="white" />
+              <FontAwesome name="arrow-left" size={24} color="rgb(241,139,47)" />
             </TouchableOpacity>
           </View>
 
           <View className="flex-row items-center">
-            <Text className="text-3xl font-bold text-white">Đăng Ký</Text>
-            <MaterialIcons name="person-add" size={30} color="white" style={{ marginLeft: 8 }} />
+            <Text className="text-3xl font-bold text-[rgb(241,139,47)]">Đăng Ký</Text>
+            <MaterialIcons
+              name="person-add"
+              size={30}
+              color="rgb(241,139,47)"
+              style={{ marginLeft: 8 }}
+            />
           </View>
-          <Text className="mb-6 text-lg text-white">
+          <Text className="mb-6 text-lg text-gray-700">
             Hãy nhập thông tin của bạn để tạo tài khoản mới.
           </Text>
 
-          <Text className="mb-2 text-lg text-white">Tên</Text>
-          <View className="mb-4 flex-row items-center rounded-lg bg-white p-4 shadow-lg">
+          <Text className="mb-2 text-lg text-gray-700">Tên</Text>
+          <View className="mb-4 flex-row items-center rounded-lg bg-gray-100 p-4 shadow-lg">
             <MaterialIcons name="person" size={20} color="gray" />
             <TextInput
               className="ml-2 flex-1 text-lg"
@@ -90,8 +95,8 @@ const SignUpScreen: React.FC = () => {
             />
           </View>
 
-          <Text className="mb-2 text-lg text-white">Email</Text>
-          <View className="mb-4 flex-row items-center rounded-lg bg-white p-4 shadow-lg">
+          <Text className="mb-2 text-lg text-gray-700">Email</Text>
+          <View className="mb-4 flex-row items-center rounded-lg bg-gray-100 p-4 shadow-lg">
             <MaterialIcons name="email" size={20} color="gray" />
             <TextInput
               className="ml-2 flex-1 text-lg"
@@ -103,8 +108,8 @@ const SignUpScreen: React.FC = () => {
             />
           </View>
 
-          <Text className="mb-2 text-lg text-white">Mật khẩu</Text>
-          <View className="mb-4 flex-row items-center rounded-lg bg-white p-4 shadow-lg">
+          <Text className="mb-2 text-lg text-gray-700">Mật khẩu</Text>
+          <View className="mb-4 flex-row items-center rounded-lg bg-gray-100 p-4 shadow-lg">
             <MaterialIcons name="lock" size={20} color="gray" />
             <TextInput
               className="ml-2 flex-1 text-lg"
@@ -122,8 +127,8 @@ const SignUpScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
 
-          <Text className="mb-2 text-lg text-white">Xác nhận mật khẩu</Text>
-          <View className="mb-4 flex-row items-center rounded-lg bg-white p-4 shadow-lg">
+          <Text className="mb-2 text-lg text-gray-700">Xác nhận mật khẩu</Text>
+          <View className="mb-4 flex-row items-center rounded-lg bg-gray-100 p-4 shadow-lg">
             <MaterialIcons name="lock" size={20} color="gray" />
             <TextInput
               className="ml-2 flex-1 text-lg"
@@ -146,19 +151,21 @@ const SignUpScreen: React.FC = () => {
 
           <TouchableOpacity
             onPress={handleSignUp}
-            className="mb-6 h-14 items-center justify-center rounded-lg bg-white shadow-lg"
+            className="mb-6 h-14 items-center justify-center rounded-lg bg-[rgb(241,139,47)] shadow-lg"
             activeOpacity={0.8}
             disabled={isLoading}>
             {isLoading ? (
-              <ActivityIndicator size="small" color="rgb(241,139,47)" />
+              <ActivityIndicator size="small" color="white" />
             ) : (
-              <Text className="text-lg font-bold text-[rgb(241,139,47)]">Đăng Ký</Text>
+              <Text className="text-lg font-bold text-white">Đăng Ký</Text>
             )}
           </TouchableOpacity>
 
-          <Text className="text-center text-white">
+          <Text className="text-center text-gray-700">
             Đã có tài khoản?{' '}
-            <Text className="font-bold underline" onPress={() => router.replace('/sign-in')}>
+            <Text
+              className="font-bold text-[rgb(241,139,47)] underline"
+              onPress={() => router.replace('/sign-in')}>
               Đăng Nhập
             </Text>
           </Text>
