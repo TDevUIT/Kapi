@@ -20,4 +20,8 @@ export const images = {
   vietnamFlag: require('../assets/image/vietnam_flag.png'),
   japaneseFlag: require('../assets/image/japanese_flag.png'),
   google: require('../assets/image/google.png'),
+  local_fire: require('../assets/image/local_fire.png'),
+  circle_notifications: require('../assets/image/circle_notifications.png'),
+  home1: require('../assets/image/home1.png'),
+  account_circle: require('../assets/image/account_circle.png'),
 };

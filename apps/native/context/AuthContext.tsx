@@ -1,31 +1,88 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Href, Redirect } from 'expo-router';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-const AuthContext = createContext<
-  | {
-      isLogged: boolean;
-      loading: boolean;
-      setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
-      setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    }
-  | undefined
->(undefined);
+import Loading from '~/components/Loading';
+import axiosInstance from '~/helper/axios';
+import { User } from '~/types/type';
+import { removeAccessToken } from '~/utils/store';
+
+interface AuthContextProps {
+  isLogged: boolean;
+  loading: boolean;
+  profile: User | null;
+  setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setProfile: React.Dispatch<React.SetStateAction<User | null>>;
+  fetchProfile: () => void;
+}
+
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isLogged, setIsLogged] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLogged, setIsLogged] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [profile, setProfile] = useState<User | null>(null);
+  const [redirect, setRedirect] = useState<string | null>(null);
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axiosInstance.get('/auth/profile');
+      if (response.data) {
+        setProfile(response.data.data);
+        setIsLogged(true);
+      } else {
+        await handleAuthError();
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        console.log('Token expired, logging out...');
+        await handleAuthError();
+      } else {
+        console.error('Failed to fetch profile:', error);
+      }
+    }
+  };
+
+  const handleAuthError = async () => {
+    await removeAccessToken();
+    setIsLogged(false);
+    setProfile(null);
+    setRedirect('/(auth)/welcome');
+  };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = await AsyncStorage.getItem('access_token');
-      setIsLogged(!!token);
-      setLoading(false);
+    const checkAuthAndFetchProfile = async () => {
+      try {
+        const token = await AsyncStorage.getItem('access_token');
+        if (token) {
+          await fetchProfile();
+        } else {
+          setIsLogged(false);
+          setProfile(null);
+        }
+      } catch (error) {
+        console.error('Error checking auth:', error);
+        await handleAuthError();
+      } finally {
+        setLoading(false);
+      }
     };
-    checkAuth();
+
+    checkAuthAndFetchProfile();
   }, []);
 
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (redirect) {
+    return <Redirect href={redirect as Href} />;
+  }
+
   return (
-    <AuthContext.Provider value={{ isLogged, loading, setIsLogged, setLoading }}>
+    <AuthContext.Provider
+      value={{ isLogged, loading, setIsLogged, setLoading, profile, setProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );
