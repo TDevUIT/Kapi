@@ -1,26 +1,25 @@
-// api.ts
 import axios from 'axios';
 
 import { SERVER_URL } from '~/config/env';
+import { getAccessToken } from '~/utils/store';
 
 const axiosInstance = axios.create({
-  baseURL: SERVER_URL, // Replace with your API base URL
-  timeout: 10000, // Timeout after 10 seconds
+  baseURL: SERVER_URL || 'http://192.168.1.4:3001/api/v1',
+  timeout: 10000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    // Add any other headers you may need (like Authorization tokens)
   },
 });
 
-// Optional: Add request interceptors to attach tokens or handle errors globally
+// Interceptors to handle authorization and errors globally
 axiosInstance.interceptors.request.use(
-  (config) => {
-    // You can attach authorization token here
-    // const token = yourTokenService.getToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+  async (config) => {
+    const access_token = await getAccessToken();
+    if (access_token) {
+      config.headers.Cookie = `access_token=${access_token}`;
+      console.log(config.headers.Cookie);
+    }
     return config;
   },
   (error) => {
@@ -28,13 +27,16 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Optional: Add response interceptors for error handling or response manipulation
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle errors
-    if (error.response.status === 401) {
-      // Handle unauthorized access (e.g., logout)
+    // Handle specific error codes globally
+    if (error.response) {
+      if (error.response.status === 401) {
+        // Unauthorized access - perhaps logout user
+        console.log('Unauthorized, logging out...');
+      }
     }
     return Promise.reject(error);
   }

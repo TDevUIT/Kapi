@@ -13,9 +13,11 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native/virtualized-lists": "^0.75.3",
     "@react-navigation/native": "^6.1.7",
     "axios": "^1.7.7",
-    "expo": "^51.0.32",
+    "expo": "~51.0.35",
     "expo-constants": "~16.0.1",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.14",

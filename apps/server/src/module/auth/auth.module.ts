@@ -8,11 +8,11 @@ import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_SESSION_EXPIRATION },
+      secret: process.env.JWT_SECRET || 'secret',
+      signOptions: { expiresIn: process.env.JWT_SESSION_EXPIRATION || '1h' },
     }),
     PrismaModule,
   ],

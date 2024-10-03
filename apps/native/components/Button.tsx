@@ -8,14 +8,12 @@ type ButtonProps = {
 export const Button = forwardRef<TouchableOpacity, ButtonProps>(
   ({ title, ...touchableProps }, ref) => {
     return (
-      <TouchableOpacity ref={ref} {...touchableProps} className="bg-black p-10">
-        <Text />
+      <TouchableOpacity
+        ref={ref}
+        {...touchableProps}
+        className="items-center rounded-[28px] bg-indigo-500 p-4 shadow-md">
+        <Text className="text-center text-lg font-semibold text-white">{title}</Text>
       </TouchableOpacity>
     );
   }
 );
-
-// const styles = {
-//   button: 'items-center bg-indigo-500 rounded-[28px] shadow-md p-4',
-//   buttonText: 'text-white text-lg font-semibold text-center',
-// };

@@ -10,6 +10,8 @@ import {
   UnauthorizedException,
   Body,
   Post,
+  HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -47,7 +49,7 @@ export class AuthController {
   ): Promise<void> {
     const googleToken = req.user.accessToken;
     const authRes = await this.authService.authenticate(googleToken);
-
+    console.log(authRes.access_token, authRes.refresh_token);
     res.redirect(
       `${process.env.MOBILE_URL}?token=${authRes.access_token}&refresh_token=${authRes.refresh_token}`,
     );
@@ -85,20 +87,14 @@ export class AuthController {
   @Post('sign-in')
   @ApiOperation({ summary: 'User sign-in' })
   @ApiBody({ type: SignInDto })
-  async signIn(
-    @Body() signInDto: SignInDto,
-    @Res() res: Response,
-  ): Promise<any> {
+  async signIn(@Body() signInDto: SignInDto) {
     try {
       const { access_token, refresh_token } =
         await this.authService.signIn(signInDto);
-      res.redirect(
-        `${process.env.MOBILE_URL}?token=${access_token}&refresh_token=${refresh_token}`,
-      );
+      return { access_token, refresh_token };
     } catch (error) {
-      return res
-        .status(500)
-        .json({ message: 'Login failed', error: error.message });
+      console.error(error);
+      throw new HttpException('Login failed', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
