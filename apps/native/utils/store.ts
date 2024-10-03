@@ -8,6 +8,13 @@ export const storeTokens = async (token: string, refresh_token?: string) => {
     console.error('Error storing tokens', error);
   }
 };
+export const removeAccessToken = async () => {
+  try {
+    await AsyncStorage.removeItem('access_token');
+  } catch (error) {
+    console.error('Error removing tokens', error);
+  }
+};
 export const removeToken = async (token: string) => {
   try {
     await AsyncStorage.removeItem('access_token');

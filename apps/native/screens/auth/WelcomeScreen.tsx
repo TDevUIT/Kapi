@@ -5,9 +5,10 @@ import { StatusBar } from 'expo-status-bar';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { images } from '~/utils/icon';
+
 import { SERVER_URL } from '~/config/env';
 import { useAuth } from '~/context/AuthContext';
+import { images } from '~/utils/icon';
 import { checkExists, storeTokens } from '~/utils/store';
 
 const WelcomeScreen = () => {
