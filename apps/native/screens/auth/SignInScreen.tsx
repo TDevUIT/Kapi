@@ -24,7 +24,7 @@ const SignInScreen: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIsLogged } = useAuth();
+  const { fetchProfile } = useAuth();
 
   const handleSignIn = async () => {
     setIsLoading(true);
@@ -36,12 +36,8 @@ const SignInScreen: React.FC = () => {
       if (response.data) {
         const { access_token, refresh_token } = response.data.data;
         await storeTokens(access_token, refresh_token);
-
-        const exists = await checkExists();
-        if (exists) {
-          setIsLogged(true);
-          router.replace('/');
-        }
+        await fetchProfile();
+        router.replace('/');
       }
     } catch (error) {
       setError('Đăng nhập thất bại, vui lòng kiểm tra lại.');
