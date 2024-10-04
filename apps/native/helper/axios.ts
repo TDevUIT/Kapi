@@ -16,9 +16,10 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     const access_token = await getAccessToken();
+    console.log("test: ", access_token?.accessToken);
     if (access_token) {
-      config.headers.Cookie = `access_token=${access_token}`;
-      console.log(config.headers.Cookie);
+      config.headers.Cookie = `access_token=${access_token.accessToken}`;
+      console.log("Test: ",config.headers.Cookie);
     }
     return config;
   },

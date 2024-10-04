@@ -55,18 +55,29 @@ export class AuthService {
     try {
       const user = await this.prismaService.user.findUnique({
         where: { email },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          picture: true,
+          providerId: true,
+          givenName: true,
+          familyName: true,
+          is_admin: true,
+          createdAt: true,
+          updatedAt: true,
+          // completedLessonCount: true,
+          // courses: true,
+          // lessonStatuses: true,
+          // courseStatuses: true,
+          // vocabularyStatuses: true,
+          // notifications: true,
+        },
       });
       if (!user) {
         throw new UnauthorizedException('User not found');
       }
-      return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        givenName: user.givenName,
-        familyName: user.familyName,
-        picture: user.picture,
-      };
+      return user;
     } catch (err) {
       console.error('Error fetching user:', err.message);
       throw new UnauthorizedException('Error fetching user details');

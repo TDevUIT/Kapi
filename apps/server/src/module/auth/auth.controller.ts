@@ -27,6 +27,7 @@ interface AuthenticatedRequest extends ExpressRequest {
   user: {
     accessToken: string;
     email: string;
+    id: string;
   };
 }
 
