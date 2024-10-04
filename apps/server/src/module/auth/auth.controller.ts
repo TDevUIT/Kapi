@@ -51,7 +51,7 @@ export class AuthController {
     const authRes = await this.authService.authenticate(googleToken);
     console.log(authRes.access_token, authRes.refresh_token);
     res.redirect(
-      `exp://192.168.1.4:8081?token=${authRes.access_token}&refresh_token=${authRes.refresh_token}`,
+      `${process.env.MOBILE_URL}?token=${authRes.access_token}&refresh_token=${authRes.refresh_token}`,
     );
   }
 
