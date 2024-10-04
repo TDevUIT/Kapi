@@ -1,13 +1,20 @@
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import tw from 'twrnc';
+
 import Header from '../../components/Header.tsx';
 
 const JLPTLesson = ({ lesson }) => {
+  const router = useRouter();
   return (
     <View style={tw`flex-row justify-between items-center mb-2 px-5 py-1`}>
-      <Text style={tw`text-sm font-semibold text-[rgb(241,139,47)]`}>{lesson}</Text>
+      <Text
+        style={tw`text-lg font-normal text-[rgb(241,139,47)]`}
+        onPress={() => router.replace('/grammar')}>
+        {lesson}
+      </Text>
       <MaterialIcons name="check-circle" size={20} color="orange" />
     </View>
   );
@@ -52,7 +59,7 @@ const JLPTSection = ({ title, levels }) => {
                   </Text>
                   <MaterialIcons name="check-circle" size={20} color="orange" />
                 </TouchableOpacity>
-                {expandedItems[index] && ( // Chỉ hiển thị bài học khi mục được mở
+                {expandedItems[index] && (
                   <View>
                     {item.lesson.map((lesson, lessonIndex) => (
                       <JLPTLesson key={lessonIndex} lesson={lesson} />
@@ -101,9 +108,9 @@ const JLPTScreen = () => {
   };
 
   return (
-    <View style={tw`flex-3`}>
+    <View style={tw`flex-1`}>
       <Header />
-      <ScrollView style={tw`p-4 pt-10`}>
+      <ScrollView style={tw`p-4 pt-6`} contentContainerStyle={{ paddingBottom: 20 }}>
         {Object.keys(jlptData).map((jlptLevel) => (
           <JLPTSection key={jlptLevel} title={jlptLevel} levels={jlptData[jlptLevel]} />
         ))}
