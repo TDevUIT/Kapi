@@ -129,7 +129,11 @@ const SignInScreen: React.FC = () => {
           {isLoading ? (
             <ActivityIndicator size="small" color="rgb(241,139,47)" />
           ) : (
-            <Text className="text-lg font-bold text-[rgb(241,139,47)]">Đăng Nhập</Text>
+            <Text
+              className="text-lg font-bold text-[rgb(241,139,47)]"
+              onPress={() => router.replace('/lesson')}>
+              Đăng Nhập
+            </Text>
           )}
         </TouchableOpacity>
 
