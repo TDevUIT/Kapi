@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<User | null>(null);
   const [redirect, setRedirect] = useState<string | null>(null);
 
-  const fetchProfile = async () => {
+  const fetchProfile = async (retryCount = 0) => {
     try {
       const response = await axiosInstance.get('/auth/profile');
       if (response.data) {
@@ -35,11 +35,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await handleAuthError();
       }
     } catch (error: any) {
+      console.log(error);
       if (error.response && error.response.status === 401) {
         console.log('Token expired, logging out...');
         await handleAuthError();
+      // } else if (error.message.includes('jwt expired') && retryCount < 5) {
+      //   console.log(`Retrying fetch profile... (${retryCount + 1}/5)`);
+      //   setTimeout(() => fetchProfile(retryCount + 1), 1000);
       } else {
         console.error('Failed to fetch profile:', error);
+        await handleAuthError();
       }
     }
   };
@@ -48,7 +53,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await removeAccessToken();
     setIsLogged(false);
     setProfile(null);
-    setRedirect('/(auth)/welcome');
+    if (!loading) {
+      setRedirect('/(auth)/welcome');
+    }
   };
 
   useEffect(() => {
@@ -68,7 +75,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(false);
       }
     };
-
     checkAuthAndFetchProfile();
   }, []);
 
@@ -82,7 +88,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider
-      value={{ isLogged, loading, setIsLogged, setLoading, profile, setProfile, fetchProfile }}>
+      value={{ isLogged, loading, setIsLogged, setLoading, profile, setProfile, fetchProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -95,8 +95,12 @@ export class AuthService {
         where: { refreshToken },
       });
       if (!user) throw new UnauthorizedException('Invalid user');
+      const newAccessToken = this.jwtService.sign(
+        { sub: user.id, email: user.email },
+        { expiresIn: process.env.JWT_SESSION_EXPIRATION },
+      );
 
-      return this.generateTokens(user);
+      return { access_token: newAccessToken };
     } catch (err) {
       console.error('Token error:', err.message);
       throw new UnauthorizedException('Invalid refresh token');
