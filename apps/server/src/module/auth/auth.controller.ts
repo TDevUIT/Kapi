@@ -69,13 +69,18 @@ export class AuthController {
     return this.authService.getUser(req.user.email);
   }
 
-  @UseGuards(JWTAuthGuard)
-  @Get('check-token')
+  // @UseGuards(JWTAuthGuard)
+  @Post('check-token')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Check if token is valid' })
-  async checkToken(@Request() req: AuthenticatedRequest): Promise<any> {
+  @ApiOperation({
+    summary: 'Check if refresh token is valid and refresh access token',
+  })
+  async checkToken(@Body() body: { refresh_token: string }): Promise<any> {
     try {
-      const refreshToken = req.cookies['refresh_token'];
+      const refreshToken = body.refresh_token;
+      if (!refreshToken) {
+        throw new UnauthorizedException('Refresh token not found');
+      }
       const { access_token } =
         await this.authService.getAccessTokenUser(refreshToken);
       return { message: 'Token is valid', access_token };

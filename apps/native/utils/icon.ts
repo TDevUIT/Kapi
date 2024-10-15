@@ -3,18 +3,17 @@ export const icons = {
   arrowRight: require('../assets/icon/arrowr.svg'),
   arrowLeft: require('../assets/icon/arrowl.svg'),
   fire: require('../assets/icon/fire.svg'),
-  flower: require('../assets/icon/flower.svg'),
-  fruit: require('../assets/icon/fruit.svg'),
+  flower: require('../assets/icon/flower.png'),
+  fruit: require('../assets/icon/fruit.png'),
   home: require('../assets/icon/home.svg'),
   lesson: require('../assets/icon/lesson.svg'),
-  psychiatry: require('../assets/icon/psychiatry.svg'),
+  psychiatry: require('../assets/icon/psychiatry.png'),
   star: require('../assets/icon/star.svg'),
-  water: require('../assets/icon/water.svg'),
-  sunny: require('../assets/icon/sunny.svg'),
+  water: require('../assets/icon/water.png'),
+  sunny: require('../assets/icon/sunny.png'),
   rank: require('../assets/icon/rank.svg'),
   announce: require('../assets/icon/announce.svg'),
 };
-
 export const images = {
   capy: require('../assets/image/Capy.png'),
   vietnamFlag: require('../assets/image/vietnam_flag.png'),
