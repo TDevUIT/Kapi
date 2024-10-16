@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import {Text, View, ScrollView } from 'react-native';
 
 import LevelStatus from '~/components/LevelStatus';
 import NewLesson from '~/components/NewLesson';

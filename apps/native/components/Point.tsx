@@ -31,7 +31,16 @@ const Point: React.FC = () => {
       [key]: !expanded[key],
     });
   };
-
+  const TotalPoints: React.FC<{
+    points: string;
+  }> = ({ points }) => (
+    <View className="flex-row items-center w-full justify-between rounded-lg bg-[#f28b2f] px-5 py-5">
+      <View className="flex-row items-center gap-3">
+        <Text className="text-lg font-bold text-black">Tổng điểm</Text>
+      </View>
+      <Text className="text-lg font-bold text-black">{points}  đ</Text>
+    </View>
+  );
   const PointSection: React.FC<{
     title: string;
     points: string;
@@ -62,9 +71,10 @@ const Point: React.FC = () => {
   );
 
   return (
-    <View className="w-full flex-1 gap-5 p-5">
-      <PointSection
-        title="Học từ vựng mới"
+    <View className="w-full flex-1 gap-5 rounded-xl bg-white p-5">
+      <TotalPoints points="0" />
+        <PointSection
+          title="Học từ vựng mới"
         points="0 đ"
         details={['Số từ đã học: 50', 'Số từ cần ôn tập: 10']}
         expandedKey="vocabulary"
