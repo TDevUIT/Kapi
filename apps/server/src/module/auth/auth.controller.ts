@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Response, Request as ExpressRequest } from 'express';
