@@ -67,6 +67,7 @@ export class AuthService {
           is_admin: true,
           createdAt: true,
           updatedAt: true,
+          pushToken: false,
           // completedLessonCount: true,
           // courses: true,
           // lessonStatuses: true,

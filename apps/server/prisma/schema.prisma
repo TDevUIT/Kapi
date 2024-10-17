@@ -49,6 +49,7 @@ model User {
   picture            String?
   passwordHash       String?
   refreshToken       String?
+  pushToken String? 
   is_admin           Boolean             @default(false)
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
