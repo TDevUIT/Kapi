@@ -6,6 +6,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { UserModule } from './module/user/user.module';
 import { CourseModule } from './module/courses/course.module';
 import { CloudinaryModule } from './module/cloudinary/cloudinary.module';
+import { LessonModule } from './module/lesson/lesson.module';
 @Module({
   imports: [
     PrismaModule,
@@ -16,6 +17,7 @@ import { CloudinaryModule } from './module/cloudinary/cloudinary.module';
     AuthModule,
     UserModule,
     CourseModule,
+    LessonModule,
     CloudinaryModule,
   ],
   controllers: [],
