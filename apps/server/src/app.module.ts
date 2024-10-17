@@ -7,6 +7,8 @@ import { UserModule } from './module/user/user.module';
 import { CourseModule } from './module/courses/course.module';
 import { CloudinaryModule } from './module/cloudinary/cloudinary.module';
 import { LessonModule } from './module/lesson/lesson.module';
+import { NotificationsModule } from './module/notification/notification.module';
+import { HealthModule } from './module/healthy/healthy.module';
 @Module({
   imports: [
     PrismaModule,
@@ -18,6 +20,8 @@ import { LessonModule } from './module/lesson/lesson.module';
     UserModule,
     CourseModule,
     LessonModule,
+    HealthModule,
+    NotificationsModule,
     CloudinaryModule,
   ],
   controllers: [],
