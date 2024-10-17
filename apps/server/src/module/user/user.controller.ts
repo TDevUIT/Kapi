@@ -2,7 +2,7 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ResponseMessage } from 'src/decorator/response-message.decorator';
 import { Request as ExpressRequest } from 'express';
-import { AuthGuard as JWTGuard } from '../auth/google.guard';
+import { AuthGuard as JWTGuard } from '../../guard/google.guard';
 import { Notification, VocabularyStatus } from '@prisma/client';
 @Controller('user')
 export class UserController {

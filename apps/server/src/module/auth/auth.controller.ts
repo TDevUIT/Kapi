@@ -20,7 +20,7 @@ import {
   ApiBearerAuth,
   ApiBody,
 } from '@nestjs/swagger';
-import { AuthGuard as JWTAuthGuard } from './google.guard';
+import { AuthGuard as JWTAuthGuard } from '../../guard/google.guard';
 import { SignInDto, SignUpDto } from '../../dto/authDto';
 
 interface AuthenticatedRequest extends ExpressRequest {

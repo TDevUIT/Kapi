@@ -39,9 +39,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (error.response && error.response.status === 401) {
         console.log('Token expired, logging out...');
         await handleAuthError();
-      // } else if (error.message.includes('jwt expired') && retryCount < 5) {
-      //   console.log(`Retrying fetch profile... (${retryCount + 1}/5)`);
-      //   setTimeout(() => fetchProfile(retryCount + 1), 1000);
+      } else if (error.message.includes('jwt expired') && retryCount < 5) {
+        console.log(`Retrying fetch profile... (${retryCount + 1}/5)`);
+        setTimeout(() => fetchProfile(retryCount + 1), 1000);
       } else {
         console.error('Failed to fetch profile:', error);
         await handleAuthError();
