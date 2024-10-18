@@ -4,7 +4,7 @@ import { Text, View, Pressable } from 'react-native';
 
 const LevelStatus = () => {
   const currentProgress = 35;
-  const maxProgress = 100;
+  const maxProgress = 200;
   const progressPercentage = (currentProgress / maxProgress) * 100;
 
   return (
