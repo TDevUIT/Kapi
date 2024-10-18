@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import ModalComponent from 'react-native-modal';
-
+import ClassifyButton from '~/components/classifyButton';
 import Card from '~/components/Card';
 
 const FlashCardScreen = () => {
@@ -36,6 +36,7 @@ const FlashCardScreen = () => {
           />
         </TouchableOpacity>
       </ModalComponent>
+      <ClassifyButton />
     </View>
   );
 };
