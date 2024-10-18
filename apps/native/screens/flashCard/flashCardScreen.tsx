@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import ModalComponent from 'react-native-modal';
+
 import Card from '~/components/Card';
 
 const FlashCardScreen = () => {
@@ -8,10 +9,7 @@ const FlashCardScreen = () => {
 
   return (
     <View className="flex-1 items-center justify-center bg-gray-100 p-4">
-      <TouchableOpacity
-        onPress={() => setShowFirstModal(true)}
-        className="w-full h-full"
-      >
+      <TouchableOpacity onPress={() => setShowFirstModal(true)} className="h-full w-full">
         <Card vocab="Vocabulary Word" meaning="..." example="..." />
       </TouchableOpacity>
 
@@ -27,12 +25,10 @@ const FlashCardScreen = () => {
         animationOutTiming={800}
         backdropTransitionInTiming={800}
         backdropTransitionOutTiming={800}
-        backdropOpacity={0.0}
-      >
+        backdropOpacity={0.0}>
         <TouchableOpacity
-          className="w-full h-5/6 items-center justify-center rounded-lg bg-white p-4 shadow-lg"
-          onPress={() => setShowFirstModal(false)}
-        >
+          className="h-5/6 w-full items-center justify-center rounded-lg bg-white p-4 shadow-lg"
+          onPress={() => setShowFirstModal(false)}>
           <Card
             vocab="Vocabulary Word"
             meaning="Example Meaning"
