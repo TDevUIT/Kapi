@@ -1,5 +1,9 @@
 # Kapi
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/af95d374-a426-4537-817a-17a7585cd649" alt="Kapi Logo" />
+</p>
+
 
 ### Apps and Packages
 
