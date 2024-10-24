@@ -72,9 +72,11 @@
 2. **Push Notifications**:
    - Get reminders for reviews directly via Zalo or phone notifications, similar to Duolingo’s system.
 
-3. **Admin Dashboard**:
-   - A powerful admin panel for content management, course creation, and tracking user progress.
+3. **AI-Powered Learning Recommendations**:
+   - Leverage AI to provide personalized learning paths based on user progress, suggesting specific flashcards, lessons, or grammar points that need more attention.
 
+4. **Admin Dashboard**:
+   - A powerful admin panel for content management, course creation, and tracking user progress.
 ---
 
 ### Apps and Packages
